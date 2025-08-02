@@ -7,10 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css"
-      integrity="sha512-iN7LaTjupCSvJzpuG1HsfrN7kYMva9n32CuWHa3gwxObn2ymlk/wEYBLETymFcpnSUsctNk6heAQ7Ez+KJ1Ciw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
     />
   </head>
   <body class="bg-black">
@@ -26,10 +23,41 @@
       <img src="vite.svg" alt="Logo del sistema" class="h-8" />
     </header>
 
+    <div class="swiper mt-16">
+      <div id="gallery" class="swiper-wrapper"></div>
+    </div>
+
     <div
-      id="gallery"
-      class="relative z-0 grid grid-cols-2 gap-2 p-2 mt-16"
-    ></div>
+      id="lightbox"
+      class="fixed inset-0 hidden z-50 flex items-center justify-center bg-black/90"
+    >
+      <button
+        id="closeBtn"
+        class="absolute top-4 right-4 text-white text-3xl"
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+      <button
+        id="prevBtn"
+        class="absolute left-4 text-white text-3xl"
+        aria-label="Anterior"
+      >
+        &#10094;
+      </button>
+      <img
+        id="lightboxImg"
+        alt=""
+        class="max-w-full max-h-full object-contain"
+      />
+      <button
+        id="nextBtn"
+        class="absolute right-4 text-white text-3xl"
+        aria-label="Siguiente"
+      >
+        &#10095;
+      </button>
+    </div>
 
     <a
       href="https://wa.me/524491952828?text=%C2%BFMe%20das%20informaci%C3%B3n%20sobre%20unos%20papos%20que%20me%20interesa%20comprar%3F"
@@ -52,21 +80,66 @@
       </svg>
     </a>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" integrity="sha512-XNnMJaW5vXoaZySUdkGFUTkOcJCIZy9lEi5Vf3L7hIwrKyYVJZZzKzbwQ6vurIWBLL8GMDIS9ZhuttW60NsSSA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-      const container = document.getElementById('gallery');
+      const images = [];
       for (let i = 1; i <= 483; i++) {
-        const url = `https://images.priceshoes.digital/catalogos/1254768_${i}.jpg`;
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('data-lightbox', 'catalogo');
+        images.push(`https://images.priceshoes.digital/catalogos/1254768_${i}.jpg`);
+      }
+
+      const wrapper = document.getElementById('gallery');
+      images.forEach((url, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide flex justify-center';
         const img = document.createElement('img');
         img.src = url;
-        img.alt = `Página ${i}`;
-        img.className = 'w-full h-auto object-contain';
-        link.appendChild(img);
-        container.appendChild(link);
+        img.alt = `Página ${index + 1}`;
+        img.className = 'w-64 aspect-[4/3] object-cover rounded-lg shadow-2xl';
+        img.addEventListener('click', () => openLightbox(index));
+        slide.appendChild(img);
+        wrapper.appendChild(slide);
+      });
+
+      const swiper = new Swiper('.swiper', {
+        effect: 'coverflow',
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+      });
+
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      let currentIndex = 0;
+
+      function openLightbox(index) {
+        currentIndex = index;
+        lightboxImg.src = images[currentIndex];
+        lightbox.classList.remove('hidden');
       }
+
+      function closeLightbox() {
+        lightbox.classList.add('hidden');
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % images.length;
+        lightboxImg.src = images[currentIndex];
+      }
+
+      function showPrev() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        lightboxImg.src = images[currentIndex];
+      }
+
+      document.getElementById('closeBtn').addEventListener('click', closeLightbox);
+      document.getElementById('nextBtn').addEventListener('click', showNext);
+      document.getElementById('prevBtn').addEventListener('click', showPrev);
     </script>
   </body>
 </html>
