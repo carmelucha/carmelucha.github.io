@@ -56,7 +56,8 @@ export function mapPaymentsToSales(sales, payments) {
     while (saleIndex < sortedSales.length && remainingPay > 0) {
       if (!p.saleId) {
         p.saleId = sortedSales[saleIndex].id;
-        p.saleDescription = sortedSales[saleIndex].description;
+        p.saleProductId = sortedSales[saleIndex].productId;
+        p.saleSize = sortedSales[saleIndex].size;
       }
       const toUse = Math.min(remainingPay, remainingSale);
       remainingPay -= toUse;

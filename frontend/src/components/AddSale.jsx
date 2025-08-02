@@ -8,7 +8,8 @@ export default function AddSale({ go, onDone, sale }) {
   const [clients, setClients] = useState([]);
   const [clientId, setClientId] = useState(sale?.clientId || '');
   const [amount, setAmount] = useState(sale?.amount || '');
-  const [desc, setDesc] = useState((sale?.description || '').toUpperCase());
+  const [productId, setProductId] = useState((sale?.productId || '').toUpperCase());
+  const [size, setSize] = useState(sale?.size || '');
   const [date, setDate] = useState(() => {
     if (sale?.date) return new Date(sale.date).toISOString().split('T')[0];
     return new Date().toISOString().split('T')[0];
@@ -26,21 +27,23 @@ export default function AddSale({ go, onDone, sale }) {
     if (sale) {
       setClientId(sale.clientId);
       setAmount(sale.amount);
-      setDesc(sale.description.toUpperCase());
+      setProductId((sale.productId || '').toUpperCase());
+      setSize(sale.size || '');
       setDate(new Date(sale.date).toISOString().split('T')[0]);
     }
   }, [sale]);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!clientId || !amount || !desc || !date) return;
+    if (!clientId || !amount || !productId || !size || !date) return;
     const value = parseFloat(amount);
     const ref = doc(db, 'clients', clientId);
     if (sale) {
       const diff = value - sale.amount;
       await updateDoc(doc(ref, 'sales', sale.id), {
         amount: value,
-        description: desc.toUpperCase(),
+        productId: productId.toUpperCase(),
+        size: parseFloat(size),
         date: parseLocalDate(date)
       });
       if (diff !== 0) {
@@ -48,7 +51,7 @@ export default function AddSale({ go, onDone, sale }) {
       }
     } else {
       const ts = parseLocalDate(date);
-      await addDoc(collection(ref, 'sales'), { amount: value, description: desc.toUpperCase(), date: ts });
+      await addDoc(collection(ref, 'sales'), { amount: value, productId: productId.toUpperCase(), size: parseFloat(size), date: ts });
       await updateDoc(ref, { balance: increment(value), total: increment(value) });
 
       const client = clients.find(c => c.id === clientId);
@@ -71,10 +74,12 @@ export default function AddSale({ go, onDone, sale }) {
 
         // Detalle de la venta
         pdf.setFont('helvetica', 'bold');
-        pdf.text('Descripción', 5, 32);
+        pdf.text('ID', 5, 32);
+        pdf.text('Talla', 25, 32);
         pdf.text('Monto', 53, 32, { align: 'right' });
         pdf.setFont('helvetica', 'normal');
-        pdf.text(String(desc), 5, 38);
+        pdf.text(String(productId), 5, 38);
+        pdf.text(String(size), 25, 38);
         pdf.text(String(`$${formatMoney(value)}`), 53, 38, { align: 'right' });
         pdf.line(5, 44, 53, 44);
 
@@ -116,9 +121,20 @@ export default function AddSale({ go, onDone, sale }) {
       )}
       <input
         className="w-full border rounded px-3 py-2"
-        value={desc}
-        onChange={e => setDesc(e.target.value.toUpperCase())}
-        placeholder="Descripción"
+        value={productId}
+        onChange={e => setProductId(e.target.value.toUpperCase())}
+        placeholder="ID"
+        pattern="[A-Za-z0-9]+"
+        title="ID alfanumérico"
+        required
+      />
+      <input
+        className="w-full border rounded px-3 py-2"
+        value={size}
+        onChange={e => setSize(e.target.value)}
+        placeholder="Talla"
+        pattern="\\d{2}\\.\\d"
+        title="Formato ##.#"
         required
       />
       <input

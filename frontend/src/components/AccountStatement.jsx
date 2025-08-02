@@ -72,13 +72,14 @@ export default function AccountStatement({ clientId }) {
     pdf.text('Detalle de ventas', margin, y);
     y += 4;
     pdf.setFontSize(10);
-    const col = [margin, margin + 30, pageWidth - 55, pageWidth - 35, pageWidth - margin];
+    const col = [margin, margin + 25, margin + 40, pageWidth - 55, pageWidth - 35, pageWidth - margin];
     pdf.setFont(undefined, 'bold');
     pdf.text('Fecha', col[0], y);
-    pdf.text('Producto', col[1], y);
-    pdf.text('Monto', col[2], y, { align: 'right' });
-    pdf.text('Abonado', col[3], y, { align: 'right' });
-    pdf.text('Saldo', col[4], y, { align: 'right' });
+    pdf.text('ID', col[1], y);
+    pdf.text('Talla', col[2], y);
+    pdf.text('Monto', col[3], y, { align: 'right' });
+    pdf.text('Abonado', col[4], y, { align: 'right' });
+    pdf.text('Saldo', col[5], y, { align: 'right' });
     pdf.setFont(undefined, 'normal');
     y += 2;
     pdf.line(margin, y, pageWidth - margin, y);
@@ -88,10 +89,11 @@ export default function AccountStatement({ clientId }) {
       .sort((a, b) => a.date - b.date)
       .forEach(s => {
         pdf.text(String(new Date(s.date).toLocaleDateString()), col[0], y);
-        pdf.text(String(s.description), col[1], y);
-        pdf.text(String(`$${formatMoney(s.amount)}`), col[2], y, { align: 'right' });
-        pdf.text(String(`$${formatMoney(s.abonado)}`), col[3], y, { align: 'right' });
-        pdf.text(String(s.pagada ? '✔' : `$${formatMoney(s.pendiente)}`), col[4], y, { align: 'right' });
+        pdf.text(String(s.productId), col[1], y);
+        pdf.text(String(s.size), col[2], y);
+        pdf.text(String(`$${formatMoney(s.amount)}`), col[3], y, { align: 'right' });
+        pdf.text(String(`$${formatMoney(s.abonado)}`), col[4], y, { align: 'right' });
+        pdf.text(String(s.pagada ? '✔' : `$${formatMoney(s.pendiente)}`), col[5], y, { align: 'right' });
         y += 4;
         if (y > pageHeight - margin) {
           pdf.addPage();
@@ -104,10 +106,10 @@ export default function AccountStatement({ clientId }) {
     pdf.text('Detalle de abonos', margin, y);
     y += 4;
     pdf.setFontSize(10);
-    const pcol = [margin, margin + 30, pageWidth - margin];
+    const pcol = [margin, margin + 40, pageWidth - margin];
     pdf.setFont(undefined, 'bold');
     pdf.text('Fecha', pcol[0], y);
-    pdf.text('Venta', pcol[1], y);
+    pdf.text('Venta (ID-Talla)', pcol[1], y);
     pdf.text('Monto', pcol[2], y, { align: 'right' });
     pdf.setFont(undefined, 'normal');
     y += 2;
@@ -118,7 +120,7 @@ export default function AccountStatement({ clientId }) {
       .sort((a, b) => a.date - b.date)
       .forEach(p => {
         pdf.text(String(new Date(p.date).toLocaleDateString()), pcol[0], y);
-        if (p.saleDescription) pdf.text(String(p.saleDescription), pcol[1], y);
+        if (p.saleProductId) pdf.text(String(`${p.saleProductId} ${p.saleSize || ''}`), pcol[1], y);
         pdf.text(String(`$${formatMoney(p.amount)}`), pcol[2], y, { align: 'right' });
         y += 4;
         if (y > pageHeight - margin) {
@@ -163,7 +165,8 @@ export default function AccountStatement({ clientId }) {
             <thead className="bg-gray-100 text-gray-700">
               <tr>
                 <th className="p-2 text-left">Fecha</th>
-                <th className="p-2 text-left">Descripción</th>
+                <th className="p-2 text-left">ID</th>
+                <th className="p-2 text-left">Talla</th>
                 <th className="p-2 text-right">Monto</th>
                 <th className="p-2 text-center">Estado</th>
               </tr>
@@ -175,7 +178,8 @@ export default function AccountStatement({ clientId }) {
                 .map(s => (
                   <tr key={s.id} className="border-t">
                     <td className="p-2">{new Date(s.date).toLocaleDateString()}</td>
-                    <td className="p-2">{s.description}</td>
+                    <td className="p-2">{s.productId}</td>
+                    <td className="p-2">{s.size}</td>
                     <td className="p-2 text-right">${formatMoney(s.amount)}</td>
                     <td className="p-2 text-center">
                       {s.pagada ? (
@@ -200,7 +204,7 @@ export default function AccountStatement({ clientId }) {
             <thead className="bg-gray-100 text-gray-700">
               <tr>
                 <th className="p-2 text-left">Fecha</th>
-                <th className="p-2 text-left">Venta</th>
+                <th className="p-2 text-left">Venta (ID - Talla)</th>
                 <th className="p-2 text-right">Monto</th>
               </tr>
             </thead>
@@ -211,7 +215,7 @@ export default function AccountStatement({ clientId }) {
                 .map(p => (
                   <tr key={p.id} className="border-t">
                     <td className="p-2">{new Date(p.date).toLocaleDateString()}</td>
-                    <td className="p-2">{p.saleDescription || ''}</td>
+                    <td className="p-2">{p.saleProductId || ''}{p.saleSize ? ` - ${p.saleSize}` : ''}</td>
                     <td className="p-2 text-right">${formatMoney(p.amount)}</td>
                   </tr>
                 ))}
