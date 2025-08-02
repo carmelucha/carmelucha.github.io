@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Catálogo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   </head>
-  <body class="bg-black transition-all duration-300">
+  <body class="bg-black text-white">
     <header
       id="mainHeader"
-      class="fixed top-0 left-0 z-50 flex w-full items-center justify-between p-4 bg-gray-900 text-white shadow-md"
+      class="fixed top-0 left-0 z-50 flex w-full items-center justify-between p-4 bg-gray-900 shadow-md"
     >
       <button
         onclick="window.location.href='index.html'"
@@ -21,19 +20,7 @@
       <img src="vite.svg" alt="Logo del sistema" class="h-8" />
     </header>
 
-    <div class="swiper">
-      <div id="gallery" class="swiper-wrapper"></div>
-    </div>
-
-    <div
-      id="lightbox"
-      class="fixed inset-0 hidden z-50 flex items-center justify-center bg-black/90"
-    >
-      <button id="closeBtn" class="absolute top-4 right-4 text-white text-3xl" aria-label="Cerrar">✕</button>
-      <button id="prevBtn" class="absolute left-4 text-white text-3xl" aria-label="Anterior">&#10094;</button>
-      <img id="lightboxImg" alt="" class="max-w-full max-h-full object-contain" />
-      <button id="nextBtn" class="absolute right-4 text-white text-3xl" aria-label="Siguiente">&#10095;</button>
-    </div>
+    <main id="gallery" class="flex flex-col"></main>
 
     <a
       href="https://wa.me/524491952828?text=%C2%BFMe%20das%20informaci%C3%B3n%20sobre%20unos%20papos%20que%20me%20interesa%20comprar%3F"
@@ -47,73 +34,22 @@
       </svg>
     </a>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
       // Ajustar el padding-top del body al alto del header
       window.addEventListener('DOMContentLoaded', () => {
         const header = document.getElementById('mainHeader');
-        const headerHeight = header.offsetHeight;
-        document.body.style.paddingTop = `${headerHeight}px`;
+        document.body.style.paddingTop = `${header.offsetHeight}px`;
       });
 
-      const images = [];
+      const gallery = document.getElementById('gallery');
       for (let i = 1; i <= 483; i++) {
-        images.push(`https://images.priceshoes.digital/catalogos/1254768_${i}.jpg`);
-      }
-
-      const wrapper = document.getElementById('gallery');
-      images.forEach((url, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'swiper-slide flex justify-center';
         const img = document.createElement('img');
-        img.src = url;
-        img.alt = `Página ${index + 1}`;
-        img.className = 'w-64 aspect-[4/3] object-cover rounded-lg shadow-2xl';
-        img.addEventListener('click', () => openLightbox(index));
-        slide.appendChild(img);
-        wrapper.appendChild(slide);
-      });
-
-      const swiper = new Swiper('.swiper', {
-        effect: 'coverflow',
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflowEffect: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
-        },
-      });
-
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightboxImg');
-      let currentIndex = 0;
-
-      function openLightbox(index) {
-        currentIndex = index;
-        lightboxImg.src = images[currentIndex];
-        lightbox.classList.remove('hidden');
+        img.src = `https://images.priceshoes.digital/catalogos/1254768_${i}.jpg`;
+        img.alt = `Página ${i}`;
+        img.loading = 'lazy';
+        img.className = 'w-full h-auto mb-4';
+        gallery.appendChild(img);
       }
-
-      function closeLightbox() {
-        lightbox.classList.add('hidden');
-      }
-
-      function showNext() {
-        currentIndex = (currentIndex + 1) % images.length;
-        lightboxImg.src = images[currentIndex];
-      }
-
-      function showPrev() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        lightboxImg.src = images[currentIndex];
-      }
-
-      document.getElementById('closeBtn').addEventListener('click', closeLightbox);
-      document.getElementById('nextBtn').addEventListener('click', showNext);
-      document.getElementById('prevBtn').addEventListener('click', showPrev);
     </script>
   </body>
 </html>
