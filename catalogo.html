@@ -6,10 +6,9 @@
     <title>Catálogo</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-black text-white">
+  <body class="bg-black">
     <header
-      id="mainHeader"
-      class="fixed top-0 left-0 z-50 flex w-full items-center justify-between p-4 bg-gray-900 shadow-md"
+      class="flex items-center justify-between p-4 bg-gray-900 text-white shadow-md"
     >
       <button
         onclick="window.location.href='index.html'"
@@ -20,7 +19,7 @@
       <img src="vite.svg" alt="Logo del sistema" class="h-8" />
     </header>
 
-    <main id="gallery" class="flex flex-col"></main>
+    <div id="gallery"></div>
 
     <a
       href="https://wa.me/524491952828?text=%C2%BFMe%20das%20informaci%C3%B3n%20sobre%20unos%20papos%20que%20me%20interesa%20comprar%3F"
@@ -28,27 +27,28 @@
       class="fixed bottom-4 right-4 z-50 bg-green-500 rounded-full p-4 shadow-2xl transition-transform transform hover:-translate-y-1 hover:shadow-[0_20px_25px_rgba(0,0,0,0.9)]"
       aria-label="WhatsApp"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-8 h-8 fill-white">
-        <path d="M19.11 18.49a4.84 4.84 0 0 1-2.09-.47c-.64-.29-1.37-.64-2.24-.88-1.32-.37-1.44.13-2.13.83-.3.3-.68.62-1.12.51C9.5 18.1 8.1 15.6 8 15c-.07-.41.12-.62.41-.9.33-.33.6-.68.9-1.03.3-.34.4-.59.56-.99.17-.39.02-.73-.1-1.02-.13-.31-.88-2.14-1.2-2.9-.32-.75-.65-.63-.89-.64h-.76c-.33 0-.86.12-1.32.62a5.3 5.3 0 0 0-1.56 3.9c0 2.28 1.17 4.49 3.13 6.27 2 1.83 4.61 2.85 7.2 2.85 1.42 0 2.74-.3 3.98-.9.46-.23.9-.5 1.32-.81.43-.33.8-.7 1.13-1.11.3-.37.56-.76.78-1.18.22-.42.13-.76-.13-1.05-.25-.28-.55-.42-.86-.55-.47-.19-.96-.43-1.34-.6-.34-.16-.73-.32-1-.42-.26-.09-.54-.19-.84-.27-.26-.08-.53-.15-.82-.22Z" />
-        <path d="M16 0a16 16 0 0 0-13.9 23.6L.1 32l8.6-2.3A16 16 0 1 0 16 0Zm9.2 23.3c-.39.86-1.9 1.64-2.66 1.74-.68.1-1.52.14-2.45-.15-.56-.17-1.28-.42-2.21-.82-3.89-1.68-6.42-5.6-6.62-5.86-.2-.27-1.58-2.1-1.58-4 0-1.89.99-2.82 1.35-3.2.37-.38.8-.49 1.06-.49h.76c.24 0 .56-.09.87.67.31.76 1 2.56 1.08 2.74.09.18.14.39.03.63-.09.2-.14.39-.28.6-.15.2-.31.45-.44.6-.14.15-.29.31-.12.6.17.29.77 1.26 1.66 2.03 1.14 1.02 2.11 1.32 2.41 1.46.3.14.48.12.66-.07.18-.18.77-.9.98-1.21.2-.3.42-.24.71-.14.29.09 1.84.87 2.16 1.03.32.15.53.23.61.35.08.12.08.7-.31 1.56Z" fill="#25D366" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 32 32"
+        class="w-8 h-8 fill-white"
+      >
+        <path
+          d="M19.11 18.49a4.84 4.84 0 0 1-2.09-.47c-.64-.29-1.37-.64-2.24-.88-1.32-.37-1.44.13-2.13.83-.3.3-.68.62-1.12.51C9.5 18.1 8.1 15.6 8 15c-.07-.41.12-.62.41-.9.33-.33.6-.68.9-1.03.3-.34.4-.59.56-.99.17-.39.02-.73-.1-1.02-.13-.31-.88-2.14-1.2-2.9-.32-.75-.65-.63-.89-.64h-.76c-.33 0-.86.12-1.32.62a5.3 5.3 0 0 0-1.56 3.9c0 2.28 1.17 4.49 3.13 6.27 2 1.83 4.61 2.85 7.2 2.85 1.42 0 2.74-.3 3.98-.9.46-.23.9-.5 1.32-.81.43-.33.8-.7 1.13-1.11.3-.37.56-.76.78-1.18.22-.42.13-.76-.13-1.05-.25-.28-.55-.42-.86-.55-.47-.19-.96-.43-1.34-.6-.34-.16-.73-.32-1-.42-.26-.09-.54-.19-.84-.27-.26-.08-.53-.15-.82-.22Z"
+        />
+        <path
+          d="M16 0a16 16 0 0 0-13.9 23.6L.1 32l8.6-2.3A16 16 0 1 0 16 0Zm9.2 23.3c-.39.86-1.9 1.64-2.66 1.74-.68.1-1.52.14-2.45-.15-.56-.17-1.28-.42-2.21-.82-3.89-1.68-6.42-5.6-6.62-5.86-.2-.27-1.58-2.1-1.58-4 0-1.89.99-2.82 1.35-3.2.37-.38.8-.49 1.06-.49h.76c.24 0 .56-.09.87.67.31.76 1 2.56 1.08 2.74.09.18.14.39.03.63-.09.2-.14.39-.28.6-.15.2-.31.45-.44.6-.14.15-.29.31-.12.6.17.29.77 1.26 1.66 2.03 1.14 1.02 2.11 1.32 2.41 1.46.3.14.48.12.66-.07.18-.18.77-.9.98-1.21.2-.3.42-.24.71-.14.29.09 1.84.87 2.16 1.03.32.15.53.23.61.35.08.12.08.7-.31 1.56Z"
+          fill="#25D366"
+        />
       </svg>
     </a>
 
     <script>
-      // Ajustar el padding-top del body al alto del header
-      window.addEventListener('DOMContentLoaded', () => {
-        const header = document.getElementById('mainHeader');
-        document.body.style.paddingTop = `${header.offsetHeight}px`;
-      });
-
-      const gallery = document.getElementById('gallery');
+      const container = document.getElementById('gallery');
       for (let i = 1; i <= 483; i++) {
         const img = document.createElement('img');
         img.src = `https://images.priceshoes.digital/catalogos/1254768_${i}.jpg`;
-        img.alt = `Página ${i}`;
-        img.loading = 'lazy';
-        img.className = 'w-full h-auto mb-4';
-        gallery.appendChild(img);
+        img.className = 'w-screen h-screen object-contain';
+        container.appendChild(img);
       }
     </script>
   </body>
