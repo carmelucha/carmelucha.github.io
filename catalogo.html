@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catálogo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-black">
+    <div id="gallery"></div>
+    <script>
+      const container = document.getElementById('gallery');
+      for (let i = 1; i <= 483; i++) {
+        const img = document.createElement('img');
+        img.src = `https://images.priceshoes.digital/catalogos/1254768_${i}.jpg`;
+        img.className = 'w-screen h-screen object-contain';
+        container.appendChild(img);
+      }
+    </script>
+  </body>
+</html>
