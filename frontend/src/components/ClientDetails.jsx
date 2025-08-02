@@ -195,7 +195,8 @@ export default function ClientDetails({ id, go }) {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 w-full">
                   <div className="flex-1 space-y-1">
                     <p className="text-sm flex items-center gap-1"><span>📅</span>{new Date(s.date).toLocaleDateString()}</p>
-                    <p className="text-sm flex items-center gap-1"><span>🛍️</span>{s.description}</p>
+                    <p className="text-sm flex items-center gap-1"><span>🆔</span>ID: {s.productId}</p>
+                    <p className="text-sm flex items-center gap-1"><span>📏</span>Talla: {s.size}</p>
                     <p className="text-sm flex items-center gap-1 font-medium"><span>💲</span>${formatMoney(s.amount)}</p>
                   </div>
                   <div className="flex items-center gap-2">
