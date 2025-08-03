@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black">
+  <div id="gallery" class="relative w-screen h-screen flex items-center justify-center">
+    <a href="/" class="absolute left-2 top-2 md:left-4 md:top-4 bg-white/50 hover:bg-white text-black rounded-full p-3">&times;</a>
+    <img id="catalog-img" class="max-h-screen max-w-full object-contain" alt="Catálogo" />
+    <button id="prev" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white text-black rounded-full p-3">&#8592;</button>
+    <button id="next" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white text-black rounded-full p-3">&#8594;</button>
+  </div>
+  <a href="https://wa.me/524491952828?text=Hola%20Carmelucha%20%C2%BFme%20puedes%20dar%20informaci%C3%B3n%20sobre%20unos%20papos%3F" target="_blank" rel="noopener" class="fixed bottom-4 right-4 z-50">
+    <div class="bg-white rounded-full shadow-2xl p-3">
+      <svg viewBox="0 0 32 32" class="w-8 h-8"><path fill="#25D366" d="M16 0C7.164 0 0 7.164 0 16c0 2.83.736 5.487 2.023 7.803L0 32l8.383-2.18A15.923 15.923 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0z"/><path fill="#FFF" d="M24.406 22.169c-.375.969-1.871 1.777-2.571 1.889-.659.106-1.512.152-2.444-.152-.561-.178-1.275-.413-2.199-.806-3.87-1.674-6.379-5.593-6.575-5.85-.195-.26-1.572-2.09-1.572-3.986 0-1.896.996-2.827 1.35-3.219.353-.391.772-.489 1.029-.489.257 0 .514.003.738.014.239.011.558-.09.873.666.375.901 1.284 3.098 1.396 3.323.112.225.187.492.037.795-.15.302-.225.491-.45.755-.225.263-.47.589-.672.791-.225.224-.459.47-.197.921.261.45 1.164 1.92 2.5 3.102 1.72 1.533 3.176 2.007 3.627 2.23.451.225.714.187.975-.112.261-.3 1.125-1.312 1.427-1.763.3-.451.6-.375.975-.224.375.15 2.356 1.112 2.755 1.312.401.199.669.299.767.453.098.155.098.892-.278 1.861z"/></svg>
+    </div>
+  </a>
+  <script src="/catalogo.js"></script>
+</body>
+</html>
